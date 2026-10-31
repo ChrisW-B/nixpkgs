@@ -1,0 +1,23 @@
+diff --git a/tests/integration.rs b/tests/integration.rs
+index d989f2d1efcb..30af2e347c80 100644
+--- a/tests/integration.rs
++++ b/tests/integration.rs
+@@ -71,7 +71,7 @@ fn info_without_ascii_has_no_logo_padding() {
+     assert!(output.status.success());
+     let stdout = String::from_utf8_lossy(&output.stdout);
+
+-    assert_eq!(stdout.lines().count(), 2);
++    assert_eq!(stdout.lines().count(), 1);
+     for line in stdout.lines() {
+         assert!(
+             line.starts_with("  ") && !line.starts_with("   "),
+@@ -100,7 +100,7 @@ fn standalone_lines_have_no_trailing_space() {
+         .unwrap();
+     assert!(output.status.success());
+     let stdout = String::from_utf8_lossy(&output.stdout);
+-    assert_eq!(stdout.lines().count(), 2);
++    assert_eq!(stdout.lines().count(), 1);
+     for line in stdout.lines() {
+         assert!(
+             !line.ends_with(' '),
+

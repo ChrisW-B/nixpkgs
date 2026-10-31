@@ -9,17 +9,17 @@
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "pfetch-rs";
-  version = "3.0.2";
+  version = "3.1.1";
   __structuredAttrs = true;
 
   src = fetchFromGitHub {
     owner = "Gobidev";
     repo = "pfetch-rs";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-RrsmCSoiTfdWOL0FLbKR8ZQyLMnEnY5fZ0S4pLbwvWY=";
+    hash = "sha256-/9EGw9PpF4zsWs1bZSiNd4M+FYHDx1cRXaYCD6X44WA=";
   };
 
-  cargoHash = "sha256-65v8mNYa+zNbAkCQNWGpb9h0bSi66R4p6cKRZ6/wuaM=";
+  cargoHash = "sha256-JQ0c4orHmKvLQH5llrm/YwRSlMSJTBShSIiRBhQdLT8=";
 
   nativeInstallCheckInputs = [
     versionCheckHook
@@ -29,12 +29,18 @@ rustPlatform.buildRustPackage (finalAttrs: {
   # The Nix build sandbox has no /etc/os-release
   checkFlags = [
     "--skip=separator_override"
+    "--skip=key_value_values_align_without_title"
   ]
   ++ lib.optionals stdenv.hostPlatform.isDarwin [
     # Title renders "user@host", which libmacchina can't resolve in the sandbox
     "--skip=info_filter"
     "--skip=logo_override"
     "--skip=raw_logo_from_stdin"
+  ];
+
+  patches = [
+    # The Nix build sandbox has no /etc/os-release, so this is 1 line instead of 2
+    ./update-test-line-count.patch
   ];
 
   passthru = {
